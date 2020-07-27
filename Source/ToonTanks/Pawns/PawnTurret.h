@@ -21,7 +21,6 @@ private:
 	FTimerHandle FireRateTimerHandle;
 	APawnTank* PlayerPawn;
 	void CheckFireCondition();
-
 	float ReturnDistanceToPlayer();
 public:
 	// Called every frame
@@ -30,5 +29,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-	
+
+	virtual void HandleDestruction() override;
 };

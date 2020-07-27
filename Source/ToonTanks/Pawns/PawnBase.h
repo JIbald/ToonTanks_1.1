@@ -6,7 +6,8 @@
 #include "GameFramework/Pawn.h"
 #include "PawnBase.generated.h"
 
-class UCapsuleComponent; //forward declaration, keeps number of includes minimal, reduce compile times, doesn't include variables core functions, just makes class aware
+class UCapsuleComponent; //forward declaration
+class AProjectileBase;
 
 UCLASS()
 class TOONTANKS_API APawnBase : public APawn
@@ -14,6 +15,7 @@ class TOONTANKS_API APawnBase : public APawn
 	GENERATED_BODY()
 
 private:
+	//COMPONENTS
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	UCapsuleComponent* CapsuleComp; //root component, general collision for the pawns 
 	
@@ -26,8 +28,20 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 	USceneComponent* ProjectileSpawnPoint;
 
+	//VARIABLES
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<AProjectileBase> ProjectileClass;
+
 public:
 	// Sets default values for this pawn's properties
 	APawnBase();
+
+protected:
+
+	void RotateTurret(FVector LookAtTarget);
+
+	void Fire();
+
+	virtual void HandleDestruction();
 
 };

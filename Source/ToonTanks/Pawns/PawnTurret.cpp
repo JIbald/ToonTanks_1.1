@@ -14,6 +14,7 @@ void APawnTurret::BeginPlay()
 	//GetWorldTimerManager(); does the same. personal preference
 
 	PlayerPawn = Cast<APawnTank>(UGameplayStatics::GetPlayerPawn(this, 0));
+
 }
 
 // Called every frame
@@ -21,6 +22,12 @@ void APawnTurret::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!PlayerPawn || ReturnDistanceToPlayer() > FireRange)
+	{
+		return;
+	}
+
+	RotateTurret(PlayerPawn->GetActorLocation());
 }
 
 void APawnTurret::CheckFireCondition()
@@ -34,7 +41,7 @@ void APawnTurret::CheckFireCondition()
 	//if player is in range then fire
 	if (ReturnDistanceToPlayer() <= FireRange)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("CheckFireCondition() Fire()"));
+		Fire();
 	}
 }
 
@@ -45,4 +52,10 @@ float APawnTurret::ReturnDistanceToPlayer()
 		return 0.0f;
 	}
 	return FVector::Dist(PlayerPawn->GetActorLocation(), GetActorLocation());
+}
+
+void APawnTurret::HandleDestruction()
+{
+	Super::HandleDestruction();
+	Destroy();
 }
