@@ -33,13 +33,13 @@ void APawnTurret::Tick(float DeltaTime)
 void APawnTurret::CheckFireCondition()
 {
 	//if Player == null || is dead then no fire
-	if (!PlayerPawn)
+	if (!PlayerPawn || !PlayerPawn->GetIsPlayerAlive() )
 	{
 		return;
 	}
 
 	//if player is in range then fire
-	if (ReturnDistanceToPlayer() <= FireRange)
+	if (ReturnDistanceToPlayer() <= FireRange )
 	{
 		Fire();
 	}
